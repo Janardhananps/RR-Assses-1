@@ -2,7 +2,7 @@
 title: "RR Peer Assessment 1"
 author: "Jana"
 date: "Wednesday, November 11, 2015"
-output: html_document
+output: pdf_document
 ---
 
 
