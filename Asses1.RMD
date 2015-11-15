@@ -8,23 +8,35 @@ output: html_document
 
 ```{r}
 library("ggplot2")
+```
 
-# Load Data
+Load Data
 
+```{r}
 data <- read.table('activity.csv',sep = ",",header = TRUE, na.strings ="NA",colClasses = c('integer','Date','factor'))
 
+```
+
+Steps taken per day
+
+```{r}
 new.data <- na.omit(data)
 total.steps <- tapply(new.data$steps, new.data$date, FUN = sum)
 plot1 <- ggplot(new.data, aes(date, steps)) + geom_bar(stat = "identity",binwidth = .5) +
         labs(title = "Histogram of Total Number of Steps Taken Each Day",x = "Date", y = "Total Number of Steps")
 print(plot1)
+```
 
-# Steps taken per day (Mean and Median)
+Steps taken per day (Mean and Median)
 
+```{r}
 mean(total.steps)
 median(total.steps)
+```
 
-## Average daily Activity pattern
+Average daily Activity pattern
+
+```{r}
 averages <- aggregate(new.data$steps, list(interval = as.numeric(as.character(new.data$interval))), FUN = "mean")
 names(averages)[2] <- "Avg.Steps"
 
@@ -34,9 +46,11 @@ print(plot2)
 averages[averages$Avg.Steps == max(averages$Avg.Steps),]
 
 sum(!complete.cases(data))
+```
 
-# Imputing missing Data
+Imputing missing Data
 
+```{r}
 impData <- data 
 for (i in 1:nrow(impData)) {
     if (is.na(impData$steps[i])) {
@@ -59,7 +73,12 @@ median(total.steps.impute)
 impData$weekdays <- factor(format(impData$date, "%A"))
 levels(impData$weekdays)
 
-# Finding differences in activity patterns between weekdays and weekends
+```
+
+Finding differences in activity patterns between weekdays and weekends
+
+```{r}
+
 
 levels(impData$weekdays) <- list(weekday = c("Monday", "Tuesday",
                                              "Wednesday", 
